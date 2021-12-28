@@ -1,8 +1,13 @@
 {
 	"name": "ajg",
-	"displayName": "Ayashii Japanese Generator",
+	"displayName": "Ayashii Nihongo Generator",
 	"description": "贵樣は怪レい日本语をVisual Studio Codeて生成ずゑことがてきまず！",
-	"version": "0.0.1",
+	"version": "0.0.4",
+	"publisher": "Hashibutogarasu",
+	"repository": { "url": "https://github.com/Hashibutogarasu/Ayashii-Nihongo-Generator" },
+	"icon": "logo.png",
+	"keywords": ["怪しい日本語","怪レい日本语","Ayashii Nihongo","Ayashii Japanese","Generator","cjp"],
+	"author": { "name": "Hashibutogarasu","url": "https://github.com/Hashibutogarasu"},
 	"engines": {
 		"vscode": "^1.63.0"
 	},
@@ -10,22 +15,34 @@
 		"Other"
 	],
 	"activationEvents": [
+		"onCommand:ajg.replace",
 		"onCommand:ajg.gen"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
+				"command": "ajg.replace",
+				"title": "Replace to Ayashii Nihongo",
+				"category": "ajg"
+			},
+			{
 				"command": "ajg.gen",
-				"title": "Genrerate Ayashii Japanese"
+				"title": "Genrerate Ayashii Nihongo",
+				"category": "ajg"
 			}
 		],
 		"keybindings": [
 			{
-				"command": "ajg.gen",
+				"command": "ajg.replace",
 				"key": "alt+x",
 				"mac": "alt+x",
 				"when": "editorHasSelection"
+			},
+			{
+				"command": "ajg.gen",
+				"key": "alt+b",
+				"mac": "alt+b"
 			}
 		]
 	},

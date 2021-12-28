@@ -9,10 +9,14 @@ const funcs_1 = require("./util/funcs");
 const { generate } = require('cjp');
 function activate(context) {
     const jpController = new JPController();
-    let disposableReplace = vscode.commands.registerCommand("ajg.gen", () => {
+    let disposableReplace = vscode.commands.registerCommand("ajg.replace", () => {
         jpController.replaceJapanese();
     });
+    let generateajg = vscode.commands.registerCommand("ajg.gen", () => {
+        jpController.generateJapanse();
+    });
     context.subscriptions.push(jpController);
+    context.subscriptions.push(generateajg);
     context.subscriptions.push(disposableReplace);
 }
 exports.activate = activate;
@@ -42,6 +46,25 @@ class JPController {
         const snippets = new vscode_1.SnippetString();
         snippets.appendText(texts);
         editor.insertSnippet(snippets);
+    }
+    async generateJapanse() {
+        const result = await vscode.window.showInputBox();
+        if (result) {
+            const editor = (0, funcs_1.getActiveEditor)();
+            if (editor === null) {
+                return;
+            }
+            ;
+            const doc = editor.document;
+            var texts = generate(result);
+            if (texts.length === 1) {
+                vscode.window.showInformationMessage(texts);
+                return;
+            }
+            const snippets = new vscode_1.SnippetString();
+            snippets.appendText(texts);
+            editor.insertSnippet(snippets);
+        }
     }
     dispose() {
         this._disposable.dispose();

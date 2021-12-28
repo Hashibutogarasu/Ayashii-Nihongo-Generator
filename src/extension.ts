@@ -9,11 +9,16 @@ export function activate(context: vscode.ExtensionContext) {
 
 	const jpController = new JPController();
 
-	let disposableReplace = vscode.commands.registerCommand("ajg.gen", () => {
+	let disposableReplace = vscode.commands.registerCommand("ajg.replace", () => {
 		jpController.replaceJapanese();
+	});
+	
+	let generateajg = vscode.commands.registerCommand("ajg.gen", () => {
+		jpController.generateJapanse();
 	});
 
 	context.subscriptions.push(jpController);
+	context.subscriptions.push(generateajg);
 	context.subscriptions.push(disposableReplace);
 }
 
@@ -47,6 +52,27 @@ class JPController {
     	snippets.appendText(texts);
 		
 		editor.insertSnippet(snippets);
+	}
+
+	public async generateJapanse(){
+		const result = await vscode.window.showInputBox();
+		if (result) {
+		    
+			const editor = getActiveEditor();
+			if (editor === null) { return; };
+	
+			const doc = editor.document;
+			var texts = generate(result);
+	
+			if (texts.length === 1) {
+				vscode.window.showInformationMessage(texts);
+				return;
+			}
+			const snippets = new SnippetString();
+			snippets.appendText(texts);
+			editor.insertSnippet(snippets);
+
+		}
 	}
 
 	dispose() {
